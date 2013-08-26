@@ -1,8 +1,10 @@
-http_path = "/"
-css_dir = "css"
-sass_dir = "scss"
-images_dir = "img"
-javascripts_dir = "js"
+http_path = "/public/"
+#http_path = "/"
+
+css_dir = http_path + "css"
+sass_dir = http_path + "scss"
+images_dir = http_path + "img"
+javascripts_dir = http_path + "js"
 
 output_style = :compact # :expanded or :nested or :compact or :compressed
 
