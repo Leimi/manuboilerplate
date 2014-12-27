@@ -16,7 +16,7 @@ module.exports = function(grunt) {
 		concat: {
 			dist: {
 				src: [
-					folder + '/components/jquery/jquery.js',
+					folder + '/bower_components/jquery/jquery.js',
 					folder + '/js/script.js'
 				],
 				dest: distFolder + '/scripts.js'
@@ -38,8 +38,8 @@ module.exports = function(grunt) {
 		// we livereload when html/css/js is changed
 		watch: {
 			sass: {
-				files: [folder + '/scss/*.scss'],
-				tasks: ['compass:dev']
+				files: [folder + '/scss/**/*.scss'],
+				tasks: ['compass:dev', 'autoprefixer:dev']
 			},
 			css: {
 				files: ['*.css']
@@ -65,7 +65,8 @@ module.exports = function(grunt) {
 					imagesDir: folder + "/img",
 					fontsDir: folder + "/fonts",
 					outputStyle: 'expanded',
-					relativeAssets: true
+					relativeAssets: true,
+					require: ['sass-css-importer']
 				}
 			},
 			dist: {
@@ -76,8 +77,23 @@ module.exports = function(grunt) {
 					imagesDir: distFolder + "/img",
 					fontsDir: distFolder + "/fonts",
 					outputStyle: 'compressed',
-					relativeAssets: true
+					relativeAssets: true,
+					require: ['sass-css-importer']
 				}
+			}
+		},
+
+		autoprefixer: {
+			options: {
+				browsers: ['last 2 versions', 'ie 8', 'android 2.3', 'ff 17']
+			},
+			dev: {
+				src: folder + "/css/style.css",
+				dest: folder + "/css/style.css"
+			},
+			dist: {
+				src: distFolder + "/style.css",
+				dest: distFolder + "/style.css"
 			}
 		},
 
@@ -110,5 +126,5 @@ module.exports = function(grunt) {
 		'connect:livereload',
 		'watch'
 	]);
-	grunt.registerTask('default', ['concat', 'uglify', 'cssmin']);
+	grunt.registerTask('build', ['compass:dist', 'autoprefixer:dist', 'concat', 'uglify', 'cssmin']);
 };
